@@ -1,4 +1,4 @@
-require "spec_helper"
+require "spec/spec_helper"
 
 describe "Stub" do
 
@@ -31,12 +31,23 @@ describe "Stub" do
 
   it "should handle a really evil test from mike" do
     stub = Stub.new
-
+      
     one = stub.when_receives(:one)
     stub.when_receives(:two).then_return(2)
 
     one.then_return(1)
 
     stub.one.should == 1
+  end
+
+
+  it "should be able to return different values on each execution" do
+    stub = Stub.new
+
+    stub.when_receives(:one).then_return(3).then_return(4).then_return(5);
+
+    stub.one().should == 3
+    stub.one().should == 4
+    stub.one().should == 5
   end
 end
